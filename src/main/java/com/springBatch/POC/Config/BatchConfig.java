@@ -22,7 +22,11 @@
     import org.springframework.core.io.ClassPathResource;
     import org.springframework.transaction.PlatformTransactionManager;
 
+
+
     import javax.sql.DataSource;
+    import java.util.UUID;
+
     @Configuration
     @Slf4j
     public class BatchConfig {
@@ -30,6 +34,7 @@
 
         @Autowired
         private DataSource dataSource;
+        private int batchCounter = 1;
 
 
         @Bean
@@ -64,7 +69,12 @@
         @Bean
         public ItemProcessor<Customer, Customer> jsonItemProcessor() {
             return customer -> {
-                System.out.println("Processing customer: " + customer.getEmail() + " " + customer.getFirstName() + " " + customer.getLastName());
+                String randString = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+                String uuid = randString + "-" + batchCounter;
+                batchCounter++;
+                customer.setStatus("Processed");
+                customer.setUuid(uuid);
+                System.out.println("Processing customer: " + customer.getEmail() + " " + customer.getFirstName() + " " + customer.getLastName() + " " + customer.getStatus() + " " + customer.getUuid());
                 return customer;
             };
         }
@@ -73,10 +83,9 @@
         public ItemWriter<Customer> jsonItemWriter(DataSource dataSource) {
             JdbcBatchItemWriter<Customer> itemWriter = new JdbcBatchItemWriter<>();
             itemWriter.setDataSource(dataSource);
-            itemWriter.setSql("INSERT INTO customers_information (firstname, secondname, email) VALUES (:firstName, :lastName, :email)");
+            itemWriter.setSql("INSERT INTO customers_information (firstname, secondname, email,uuid,status) VALUES (:firstName, :lastName, :email,:uuid, :status)");
             itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
             itemWriter.afterPropertiesSet();
-
             return itemWriter;
         }
 
