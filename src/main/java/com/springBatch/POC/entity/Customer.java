@@ -2,6 +2,8 @@ package com.springBatch.POC.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="customers_information")
 public class Customer {
@@ -11,16 +13,16 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "firstname")
-    private static String firstName;
+    private String firstName;
 
     @Column(name = "secondname")
-    private static String lastName;
+    private String lastName;
 
     @Column(name = "email")
-    private static String email;
+    private String email;
 
     @Column(name = "status")
-    private static String status;
+    private static  String status;
 
     @Column(name = "uuid")
     private static String uuid;
@@ -29,11 +31,11 @@ public class Customer {
     }
 
 
-    public static void setStatus(String status) {
+    public void setStatus(String status) {
         Customer.status = status;
     }
 
-    public static void setUuid(String uuid) {
+    public void setUuid(String uuid) {
         Customer.uuid = uuid;
     }
 
@@ -49,8 +51,6 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.status = status;
-        this.uuid = uuid;
     }
 
     public Long getId() {
@@ -61,7 +61,7 @@ public class Customer {
         this.id = id;
     }
 
-    public static String getFirstName() {
+    public  String getFirstName() {
         return firstName;
     }
 
@@ -69,7 +69,7 @@ public class Customer {
         this.firstName = firstName;
     }
 
-    public static String getLastName() {
+    public  String getLastName() {
         return lastName;
     }
 
@@ -77,7 +77,7 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public static String  getEmail() {
+    public String  getEmail() {
         return email;
     }
 
