@@ -1,17 +1,19 @@
 package com.springBatch.POC.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name="customers_information")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer {
 
     @Id
     @Column(name = "customer_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long customerId;
     @Column(name = "firstname")
     private String firstName;
 
@@ -54,11 +56,11 @@ public class Customer {
     }
 
     public Long getId() {
-        return id;
+        return customerId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.customerId = id;
     }
 
     public  String getFirstName() {

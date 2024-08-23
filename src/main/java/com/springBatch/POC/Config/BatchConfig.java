@@ -1,5 +1,7 @@
 package com.springBatch.POC.Config;
 
+import com.springBatch.POC.batchSkip.CustomSkipListener;
+import com.springBatch.POC.batchSkip.skipPolicy;
 import com.springBatch.POC.entity.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -60,6 +62,9 @@ public class BatchConfig {
                 .reader(jsonItemReader())
                 .processor(jsonItemProcessor())
                 .writer(jsonItemWriter(dataSource))
+                .faultTolerant()
+                .skipPolicy(new skipPolicy())
+                .listener(new CustomSkipListener())
                 .build();
     }
 

@@ -8,7 +8,11 @@ public class skipPolicy implements SkipPolicy {
 
     @Override
     public boolean shouldSkip(Throwable t, long skipCount) {
-        if (t instanceof JsonParseException || t instanceof JsonMappingException || t instanceof IllegalArgumentException) {
+        if (t instanceof JsonParseException ||
+                t instanceof JsonMappingException ||
+                t instanceof IllegalArgumentException ||
+                t instanceof RuntimeException ||
+                t instanceof org.springframework.batch.item.ParseException ) {
             return true;
         }
         return false;
